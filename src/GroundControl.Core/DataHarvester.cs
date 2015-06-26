@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GroundControl.Core
 {
-  public class DataAggregator : HealthDataProviderBase, IDataAggregator
+  public class DataHarvester : HealthDataProviderBase, IDataHarvester
   {
     private const string TotalBytes = "Total Bytes";
     private const string TotalChunks = "Total Chunks";
@@ -20,7 +20,7 @@ namespace GroundControl.Core
     private long _totalChunks;
     private readonly ConcurrentDictionary<IConnectionEndpoint, Tuple<Connection, Thread>> _connections;
 
-    public DataAggregator(
+    public DataHarvester(
       IConnectionFactory factory,
       ConcurrentQueue<IChunk> packetQueue,
       IChunkDescriptionsRepository descriptionsRepository,

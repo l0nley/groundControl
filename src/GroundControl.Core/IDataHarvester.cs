@@ -7,7 +7,7 @@ namespace GroundControl.Core
   /// <summary>
   /// Data aggregator
   /// </summary>
-  public interface IDataAggregator : IDisposable
+  public interface IDataHarvester : IDisposable
   {
     /// <summary>
     /// Creates and tracks connection

@@ -7,6 +7,7 @@ namespace GroundControl.Station.Classes
   public class ConnectionDescription : INotifyPropertyChanged
   {
     private string _handlerTypeFullName;
+    private string _connectionName;
 
     public string HandlerTypeFullName
     {
@@ -15,6 +16,17 @@ namespace GroundControl.Station.Classes
       {
         if (value == _handlerTypeFullName) return;
         _handlerTypeFullName = value;
+        OnPropertyChanged();
+      }
+    }
+
+    public string ConnectionName
+    {
+      get { return _connectionName; }
+      set
+      {
+        if (value == _connectionName) return;
+        _connectionName = value;
         OnPropertyChanged();
       }
     }

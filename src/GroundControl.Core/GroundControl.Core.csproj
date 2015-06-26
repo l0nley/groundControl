@@ -42,7 +42,7 @@
   <ItemGroup>
     <Compile Include="Chunk.cs" />
     <Compile Include="ChunkDescriptionsRepository.cs" />
-    <Compile Include="DataAggregator.cs" />
+    <Compile Include="DataHarvester.cs" />
     <Compile Include="DataReducer.cs" />
     <Compile Include="HealthDataProviderBase.cs" />
     <Compile Include="HealthDescription.cs" />
@@ -53,7 +53,7 @@
     <Compile Include="Connection.cs" />
     <Compile Include="IConnectionEndpoint.cs" />
     <Compile Include="IConnectionFactory.cs" />
-    <Compile Include="IDataAggregator.cs" />
+    <Compile Include="IDataHarvester.cs" />
     <Compile Include="IDataReducer.cs" />
     <Compile Include="IHealthDescription.cs" />
     <Compile Include="IHealthDataProvider.cs" />

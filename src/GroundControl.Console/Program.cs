@@ -28,7 +28,7 @@ namespace GroundControl.Console
       var connectionFactory = new ConnectionFactory();
       connectionFactory.AddHandler(new ComConnectionHandler());
 
-      using (var aggregator = new DataAggregator(connectionFactory, queue, repo, 5))
+      using (var aggregator = new DataHarvester(connectionFactory, queue, repo, 5))
       {
         aggregator.HealthUpdated += HealthUpdated;
         using (var reducer = new DataReducer(1, queue, 5))

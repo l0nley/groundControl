@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="GroundControl.Station.DataHarvesterView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GroundControl.Station"
+             xmlns:c="clr-namespace:GroundControl.Station.Classes"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+  <UserControl.Resources>
+    <local:HealthStatusValueConverter x:Key="valueConverter" />
+  </UserControl.Resources>
+  <Border Margin="4" Padding="4"
+                BorderBrush="#E9E9E9"
+                Background="#B8B8B8"
+                BorderThickness="1,1,1,1"
+                CornerRadius="8,8,8,8">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+      <local:Switcher Grid.Row="0" Grid.Column="0" />
+      <local:EditableLabel Grid.Row="0" Grid.Column="1" Width="100" HorizontalAlignment="Left"/>
+      <ItemsControl ItemsSource="{Binding Health}" Grid.ColumnSpan="2" Grid.Row="2">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <StackPanel Orientation="Vertical" />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate DataType="local:HealthStatus">
+            <local:Bar Level="{Binding Level, Converter={StaticResource valueConverter}}" 
+                       BarName="{Binding Name}"/>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </Grid>
+    <Border.Effect>
+      <DropShadowEffect Color="#E9E9E9" Opacity="0.8" />
+    </Border.Effect>
+  </Border>
+</UserControl>

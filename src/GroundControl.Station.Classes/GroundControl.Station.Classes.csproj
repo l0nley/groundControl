@@ -45,11 +45,18 @@
     <Compile Include="DisplayType.cs" />
     <Compile Include="GroupContainer.cs" />
     <Compile Include="HealthMonitor.cs" />
+    <Compile Include="HealthStatus.cs" />
     <Compile Include="LayoutElement.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TelemetryInformation.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GroundControl.Core\GroundControl.Core.csproj">
+      <Project>{c06da4ba-736e-4ffb-b11b-5584b385e053}</Project>
+      <Name>GroundControl.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
