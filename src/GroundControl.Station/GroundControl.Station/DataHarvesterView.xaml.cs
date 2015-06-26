@@ -80,7 +80,7 @@ namespace GroundControl.Station
 
     private void Switcher_SwitcherTriggered(object sender, System.EventArgs e)
     {
-      IsRunning = !IsRunning;
+      IsRunning = !IsRunning.GetValueOrDefault();
     }
   }
 }

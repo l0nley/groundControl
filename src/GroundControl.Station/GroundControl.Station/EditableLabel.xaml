@@ -12,10 +12,10 @@
   <Grid>
     <TextBox Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:EditableLabel}}, Path=Text, Mode=TwoWay}"
              Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:EditableLabel}}, Path=EditMode, Converter={StaticResource boolToVisibility}}"  
-             KeyDown="TextBox_KeyDown"
+             KeyDown="TextBox_KeyDown" Margin="0"
              local:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text"/>
     <Label Content="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:EditableLabel}}, Path=Text}" 
-           FontWeight="DemiBold"
+           FontWeight="DemiBold" Margin="0"
            Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:EditableLabel}}, Path=EditMode, Converter={StaticResource boolToVisibility}, ConverterParameter=1}" 
            MouseDoubleClick="Label_MouseDoubleClick"/>
   </Grid>

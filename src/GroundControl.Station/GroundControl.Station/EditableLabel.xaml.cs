@@ -9,9 +9,14 @@ namespace GroundControl.Station
   /// </summary>
   public partial class EditableLabel : UserControl
   {
-    public static DependencyProperty IsReadonlyProperty = DependencyProperty.Register("IsReadonly", typeof(bool?), typeof(EditableLabel));
+    public static DependencyProperty IsReadonlyProperty = DependencyProperty.Register("IsReadonly", typeof(bool?), typeof(EditableLabel), new PropertyMetadata(IsReadonlyChanged));
     public static DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(EditableLabel));
     public static DependencyProperty EditModeProperty = DependencyProperty.Register("EditMode", typeof(bool?), typeof(EditableLabel));
+
+    public static void IsReadonlyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+      (d as EditableLabel).EditMode = false;
+    }
 
     public EditableLabel()
     {
