@@ -1,8 +1,5 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Input;
 
 namespace GroundControl.Station
@@ -10,27 +7,39 @@ namespace GroundControl.Station
   /// <summary>
   /// Interaction logic for EditableLabel.xaml
   /// </summary>
-  public partial class EditableLabel : UserControl, INotifyPropertyChanged
+  public partial class EditableLabel : UserControl
   {
-    private string _text;
-    private bool _editMode;
+    public static DependencyProperty IsReadonlyProperty = DependencyProperty.Register("IsReadonly", typeof(bool?), typeof(EditableLabel));
+    public static DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(EditableLabel));
+    public static DependencyProperty EditModeProperty = DependencyProperty.Register("EditMode", typeof(bool?), typeof(EditableLabel));
 
     public EditableLabel()
     {
-      Text = "Label";
       InitializeComponent();
     }
 
-    public bool EditMode
+    public bool? EditMode
     {
       get
       {
-        return _editMode;
+        return (bool?)GetValue(EditModeProperty);
       }
       set
       {
-        _editMode = value;
-        OnPropertyChanged();
+        SetValue(EditModeProperty, value);
+      }
+    }
+
+    public bool? IsReadonly
+    {
+      get
+      {
+        return (bool?)GetValue(IsReadonlyProperty);
+      }
+
+      set
+      {
+        SetValue(IsReadonlyProperty, value);
       }
     }
 
@@ -38,26 +47,17 @@ namespace GroundControl.Station
     {
       get
       {
-        return _text;
+        return (string)GetValue(TextProperty);
       }
 
       set
       {
-        _text = value;
-        OnPropertyChanged();
+        SetValue(TextProperty, value);
       }
     }
-
-    private void OnPropertyChanged([CallerMemberName]string propertyName = null)
-    {
-      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
     private void TextBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
     {
-      if(e.Key == System.Windows.Input.Key.Enter)
+      if(e.Key == Key.Enter)
       {
         EditMode = false;
       }
@@ -65,7 +65,10 @@ namespace GroundControl.Station
 
     private void Label_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
-      EditMode = true;
+      if (IsReadonly.GetValueOrDefault() == false)
+      {
+        EditMode = true;
+      }
     }
   }
 

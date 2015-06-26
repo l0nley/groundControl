@@ -1,42 +1,37 @@
-﻿using GroundControl.Core;
-using GroundControl.Station.Classes.Annotations;
-using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using System;
+using System.Windows;
 
 namespace GroundControl.Station.Classes
 {
-  public class HealthStatus : INotifyPropertyChanged, IHealthDescription
+  public class HealthStatus : DependencyObject
   {
-    private string _name;
-    private DateTime _timeStamp;
-    private object _value;
+    public static DependencyProperty NameProperty = DependencyProperty.Register("Name", typeof(string), typeof(HealthStatus));
+    public static DependencyProperty TimestampProperty = DependencyProperty.Register("Timestamp", typeof(DateTime?), typeof(HealthStatus));
+    public static DependencyProperty ValueProperty = DependencyProperty.Register("Value", typeof(object), typeof(HealthStatus));
 
     public string Name
     {
       get
       {
-        return _name;
+        return (string)GetValue(NameProperty);
       }
 
       set
       {
-        _name = value;
-        OnPropertyChanged();
+        SetValue(NameProperty, value);
       }
     }
 
-    public DateTime Timestamp
+    public DateTime? Timestamp
     {
       get
       {
-        return _timeStamp;
+        return (DateTime?)GetValue(TimestampProperty);
       }
 
       set
       {
-        _timeStamp = value;
-        OnPropertyChanged();
+        SetValue(TimestampProperty, value);
       }
     }
 
@@ -44,22 +39,13 @@ namespace GroundControl.Station.Classes
     {
       get
       {
-        return _value;
+        return GetValue(ValueProperty);
       }
 
       set
       {
-        _value = value;
-        OnPropertyChanged();
+        SetValue(ValueProperty, value);
       }
-    }
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    [NotifyPropertyChangedInvocator]
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
   }
 }

@@ -4,10 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GroundControl.Station"
-             xmlns:c="clr-namespace:GroundControl.Station.Classes"
+             xmlns:c="clr-namespace:GroundControl.Station.Classes;assembly=GroundControl.Station.Classes"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300"
-             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+             d:DesignHeight="300" d:DesignWidth="300">
   <UserControl.Resources>
     <local:HealthStatusValueConverter x:Key="valueConverter" />
   </UserControl.Resources>
@@ -19,15 +18,19 @@
     <Grid>
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
-        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
       </Grid.RowDefinitions>
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
-      <local:Switcher Grid.Row="0" Grid.Column="0" />
-      <local:EditableLabel Grid.Row="0" Grid.Column="1" Width="100" HorizontalAlignment="Left"/>
-      <ItemsControl ItemsSource="{Binding Health}" Grid.ColumnSpan="2" Grid.Row="2">
+      <local:Switcher Grid.Row="0" Grid.Column="0" SwitcherTriggered="Switcher_SwitcherTriggered"/>
+      <local:EditableLabel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" 
+                           IsReadonly="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:DataHarvesterView}}, Path=IsRunning}"
+                           Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:DataHarvesterView}}, Path=HarvesterName}"/>
+      <ItemsControl ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:DataHarvesterView}}, Path=Health}" 
+                    Grid.ColumnSpan="2" Grid.Row="1">
         <ItemsControl.ItemsPanel>
           <ItemsPanelTemplate>
             <StackPanel Orientation="Vertical" />
@@ -35,8 +38,24 @@
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
           <DataTemplate DataType="local:HealthStatus">
-            <local:Bar Level="{Binding Level, Converter={StaticResource valueConverter}}" 
+            <local:Bar Level="{Binding Path=Value, Converter={StaticResource valueConverter}}" 
                        BarName="{Binding Name}"/>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+      <ItemsControl ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:DataHarvesterView}}, Path=Connections}"
+                    Grid.ColumnSpan="2" Grid.Row="2">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <StackPanel Orientation="Vertical" />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate DataType="{x:Type c:ConnectionDescription}">
+            <local:Connection IsReadonly="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:DataHarvesterView}}, Path=IsRunning}" 
+                              ConnectionName="{Binding ConnectionName}"
+                              HandlerName="{Binding HandlerName}"
+                              Uri="{Binding Uri}"/>
           </DataTemplate>
         </ItemsControl.ItemTemplate>
       </ItemsControl>

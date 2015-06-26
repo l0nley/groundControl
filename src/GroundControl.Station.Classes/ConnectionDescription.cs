@@ -1,54 +1,61 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using GroundControl.Station.Classes.Annotations;
+﻿using System.Windows;
 
 namespace GroundControl.Station.Classes
 {
-  public class ConnectionDescription : INotifyPropertyChanged
+  public class ConnectionDescription : DependencyObject
   {
-    private string _handlerTypeFullName;
-    private string _connectionName;
 
-    public string HandlerTypeFullName
+    public static DependencyProperty HandlerNameProperty = DependencyProperty.Register("HandlerName", typeof(string), typeof(ConnectionDescription));
+    public static DependencyProperty ConnectionNameProperty = DependencyProperty.Register("ConnectionName", typeof(string), typeof(ConnectionDescription));
+    public static DependencyProperty UriProperty = DependencyProperty.Register("Uri", typeof(string), typeof(ConnectionDescription));
+    public static DependencyProperty IsReadonlyProperty = DependencyProperty.Register("IsReadonly", typeof(bool?), typeof(ConnectionDescription));
+
+    public string HandlerName
     {
-      get { return _handlerTypeFullName; }
+      get
+      {
+        return (string)GetValue(HandlerNameProperty);
+      }
       set
       {
-        if (value == _handlerTypeFullName) return;
-        _handlerTypeFullName = value;
-        OnPropertyChanged();
+        SetValue(HandlerNameProperty, value);
+      }
+    }
+
+    public bool? IsReadonly
+    {
+      get
+      {
+        return (bool?)GetValue(IsReadonlyProperty);
+      }
+      set
+      {
+        SetValue(IsReadonlyProperty, value);
       }
     }
 
     public string ConnectionName
     {
-      get { return _connectionName; }
+      get
+      {
+        return (string)GetValue(ConnectionNameProperty);
+      }
       set
       {
-        if (value == _connectionName) return;
-        _connectionName = value;
-        OnPropertyChanged();
+        SetValue(ConnectionNameProperty, value);
       }
     }
 
     public string Uri
     {
-      get { return _uri; }
+      get
+      {
+        return (string)GetValue(UriProperty);
+      }
       set
       {
-        if (value == _uri) return;
-        _uri = value;
-        OnPropertyChanged();
+        SetValue(UriProperty, value);
       }
-    }
-
-    private string _uri;
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    [NotifyPropertyChangedInvocator]
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
   }
 }

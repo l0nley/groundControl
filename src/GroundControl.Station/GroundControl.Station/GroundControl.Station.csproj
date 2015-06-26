@@ -62,8 +62,10 @@
     <Compile Include="Bar.xaml.cs">
       <DependentUpon>Bar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BarItem.cs" />
     <Compile Include="Commands.cs" />
+    <Compile Include="Connection.xaml.cs">
+      <DependentUpon>Connection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="EditableLabel.xaml.cs">
       <DependentUpon>EditableLabel.xaml</DependentUpon>
     </Compile>
@@ -108,6 +110,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\GroundControl.Connections\GroundControl.Connections.csproj">
+      <Project>{7c01fdd8-5a88-450c-83ff-f85e09ef431f}</Project>
+      <Name>GroundControl.Connections</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GroundControl.Core\GroundControl.Core.csproj">
+      <Project>{C06DA4BA-736E-4FFB-B11B-5584B385E053}</Project>
+      <Name>GroundControl.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\GroundControl.Station.Classes\GroundControl.Station.Classes.csproj">
       <Project>{33f8ba4b-1fc3-404a-9ff6-2e3c62007f36}</Project>
       <Name>GroundControl.Station.Classes</Name>
@@ -115,6 +125,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Bar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Connection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

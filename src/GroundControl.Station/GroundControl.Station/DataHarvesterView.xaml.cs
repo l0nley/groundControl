@@ -1,57 +1,86 @@
 ﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Windows;
 using System.Windows.Controls;
 using GroundControl.Station.Classes;
-using System.Runtime.CompilerServices;
+using System.Windows;
+using GroundControl.Connections;
 
 namespace GroundControl.Station
 {
   /// <summary>
   /// Interaction logic for DataHarvesterView.xaml
   /// </summary>
-  public partial class DataHarvesterView : UserControl, INotifyPropertyChanged
+  public partial class DataHarvesterView : UserControl
   {
-    ObservableCollection<HealthStatus> _health;
+
+    public static DependencyProperty IsRunningProperty = DependencyProperty.Register("IsRunning", typeof(bool?), typeof(DataHarvesterView));
+    public static DependencyProperty HarvesterNameProperty = DependencyProperty.Register("HarvesterName", typeof(string), typeof(DataHarvesterView));
+
     public DataHarvesterView()
     {
       InitializeComponent();
-      Health = new ObservableCollection<HealthStatus>();
-      Health.Add(new HealthStatus
+      HarvesterName = "Buzzer Harvester" + this.GetHashCode();
+      Health = new ObservableCollection<HealthStatus>
       {
-        Name = "Frames/sec",
-        Value = 20
-      });
-      Health.Add(new HealthStatus
+        new HealthStatus
+        {
+          Name = "Frames/sec",
+          Value = 20
+        },
+        new HealthStatus
+        {
+          Name = "Control/sec",
+          Value = 50
+        }
+      };
+
+      Connections = new ObservableCollection<ConnectionDescription>
       {
-        Name = "Control/sec",
-        Value = 50
-      });
+        new ConnectionDescription
+        {
+          ConnectionName = "Buzzer#1",
+          HandlerName = typeof(BuzzerConnectionHandler).Name,
+          Uri = "device://buzzer1"
+        },
+        new ConnectionDescription
+        {
+          ConnectionName = "Buzzer#1",
+          HandlerName = typeof(BuzzerConnectionHandler).Name,
+          Uri = "device://buzzer2"
+        }
+      };
     }
 
-    public ObservableCollection<HealthStatus> Health
+    public ObservableCollection<HealthStatus> Health { get; set; }
+
+    public ObservableCollection<ConnectionDescription> Connections { get; set; }
+
+    public string HarvesterName
     {
       get
       {
-        return _health;
+        return (string)GetValue(HarvesterNameProperty);
       }
       set
       {
-        _health = value;
-        OnPropertyChanged();
+        SetValue(HarvesterNameProperty, value);
       }
     }
 
-    private void OnPropertyChanged([CallerMemberName]string propertyName = null)
+    public bool? IsRunning
     {
-      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+      get
+      {
+        return (bool?)GetValue(IsRunningProperty);
+      }
+      set
+      {
+        SetValue(IsRunningProperty, value);
+      }
     }
-
-    public event PropertyChangedEventHandler PropertyChanged;
 
     private void Switcher_SwitcherTriggered(object sender, System.EventArgs e)
     {
-      MessageBox.Show("Ope!");
+      IsRunning = !IsRunning;
     }
   }
 }

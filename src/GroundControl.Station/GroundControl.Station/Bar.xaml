@@ -4,39 +4,47 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GroundControl.Station"
+             xmlns:c="clr-namespace:GroundControl.Station.Classes;assembly=GroundControl.Station.Classes"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" >
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition />
-      <RowDefinition />
-    </Grid.RowDefinitions>
-    <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:Bar}}, Path=BarName}"></TextBlock>
-    <ItemsControl ItemsSource="{Binding  RelativeSource={RelativeSource AncestorType={x:Type local:Bar}}, Path=Items}" Grid.Row="1">
-      <ItemsControl.ItemTemplate>
-        <DataTemplate DataType="{x:Type local:BarItem}">
-          <Rectangle x:Name="cell" Margin="2" MinHeight="5" Width="2"/>
-          <DataTemplate.Triggers>
-            <DataTrigger Binding="{Binding Level}" Value="1">
-              <Setter TargetName="cell" Property="Fill" Value="Red"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Level}" Value="2">
-              <Setter TargetName="cell" Property="Fill" Value="Yellow"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Level}" Value="3">
-              <Setter TargetName="cell" Property="Fill" Value="Green"/>
-            </DataTrigger>
-            <DataTrigger Binding="{Binding Level}" Value="0">
-              <Setter TargetName="cell" Property="Fill" Value="Black"/>
-            </DataTrigger>
-          </DataTemplate.Triggers>
-        </DataTemplate>
-      </ItemsControl.ItemTemplate>
-      <ItemsControl.ItemsPanel>
-        <ItemsPanelTemplate>
-          <UniformGrid Columns="20" />
-        </ItemsPanelTemplate>
-      </ItemsControl.ItemsPanel>
-    </ItemsControl>
-  </Grid>
+  <Border BorderBrush="Black" BorderThickness="1,1,1,0">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition />
+        <RowDefinition />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="3*" />
+        <ColumnDefinition Width="7*" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:Bar}}, Path=BarName}" Grid.Column="0" Grid.Row="0"></TextBlock>
+      <UniformGrid Grid.Column="1" Grid.Row="0" Columns="3">
+        <StackPanel Orientation="Horizontal">
+          <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:Bar}}, Path=Min}"></TextBlock>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+          <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:Bar}}, Path=Level}"></TextBlock>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+          <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:Bar}}, Path=Max}"></TextBlock>
+        </StackPanel>
+      </UniformGrid>
+      <ItemsControl Grid.ColumnSpan="2"  Grid.Row="1" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:Bar}}, Path=Items}">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate DataType="{x:Type c:BarItem}">
+            <Border BorderBrush="Black" BorderThickness="1,0,0,0">
+              <Rectangle x:Name="cell" Margin="0" MinHeight="7" MinWidth="5" Fill="{Binding Color}" />
+            </Border>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <UniformGrid Columns="20"/>
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+      </ItemsControl>
+
+    </Grid>
+  </Border>
 </UserControl>

@@ -1,56 +1,51 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
+﻿using GroundControl.Station.Classes;
+using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace GroundControl.Station
 {
   /// <summary>
   /// Interaction logic for Bar.xaml
   /// </summary>
-  public partial class Bar : UserControl, INotifyPropertyChanged
+  public partial class Bar : UserControl
   {
-
-    private int _max;
-    private int _min;
-    private ObservableCollection<BarItem> _items;
-
 
     public static readonly DependencyProperty BarNameProperty
       = DependencyProperty.Register("BarName", typeof(string), typeof(Bar));
 
     public static readonly DependencyProperty LevelProperty
-      = DependencyProperty.Register("Level", typeof(int?), typeof(Bar));
+      = DependencyProperty.Register("Level", typeof(int?), typeof(Bar), new PropertyMetadata(LevelChangedCallback));
+
+    public static readonly DependencyProperty MaxProperty
+      = DependencyProperty.Register("Max", typeof(int?), typeof(Bar));
+
+    public static readonly DependencyProperty MinProperty
+      = DependencyProperty.Register("Min", typeof(int?), typeof(Bar));
+
+    public static void LevelChangedCallback(DependencyObject d,  DependencyPropertyChangedEventArgs e)
+    {
+      (d as Bar).LevelChanged();
+    }
+
 
     public Bar()
     {
       SetValue(NameProperty, "BAR" + this.GetHashCode());
-      _min = 0;
-      _max = 100;
-      _items = new ObservableCollection<BarItem>();
+      Max = 100;
+      Min = 0;
+      Items = new List<BarItem>();
       for (var i = 0; i < 20; i++)
       {
-        _items.Add(new BarItem());
+        Items.Add(new BarItem());
       }
 
       InitializeComponent();
     }
 
-    public ObservableCollection<BarItem> Items
-    {
-      get
-      {
-        return _items;
-      }
-      set
-      {
-        _items = value;
-        OnPropertyChanged();
-      }
-    }
+    public List<BarItem> Items { get; set; }
 
     public string BarName
     {
@@ -73,88 +68,76 @@ namespace GroundControl.Station
       set
       {
         SetValue(LevelProperty, value);
-        LevelChanged();
       }
     }
 
-    public int Max
+    public int? Max
     {
       get
       {
-        return _max;
+        return GetValue(MaxProperty) as int?;
       }
 
       set
       {
-        _max = value;
-        OnPropertyChanged();
+        SetValue(MaxProperty, value);
       }
     }
 
-    public int Min
+    public int? Min
     {
       get
       {
-        return _min;
+        return (int?)GetValue(MinProperty);
       }
 
       set
       {
-        _min = value;
-        OnPropertyChanged();
+        SetValue(MinProperty, value);
       }
     }
 
     private void LevelChanged()
     {
-      if (Level > Max)
+      if (Level * 1.3 > Max)
       {
         Max = (int)(Level * 1.3);
       }
-      if (Level < Max * 0.5)
+      if (Level < Max * 0.2)
       {
-        Max = (int)(Max * 0.7);
+        Max = (int)(Max * 0.8);
       }
 
-      var maxColor = Math.Sqrt(Max);
-      var greenBorder = 0.33 * maxColor;
-      var yellowBorder = 0.66 * maxColor;
+      var maxColor = Math.Sqrt(Max.GetValueOrDefault());
+      var greenBorder = 0.5 * maxColor;
+      var yellowBorder = 0.8 * maxColor;
       var level = Math.Sqrt(Level.GetValueOrDefault());
-      var step = Max / (double)_items.Count;
+      var step = maxColor / (double)Items.Count;
       var currentLevel = 0.0;
-      foreach (var item in _items)
+      foreach (var item in Items)
       {
-        var y = Math.Sqrt(currentLevel);
-        if (level <= currentLevel)
+        if (currentLevel < level)
         {
-          if (y <= greenBorder)
+          if (currentLevel <= greenBorder)
           {
-            item.Level = 3;
+            item.Color = new SolidColorBrush(Colors.Green);
           }
           else
-          if (y <= yellowBorder)
+          if (currentLevel <= yellowBorder)
           {
-            item.Level = 2;
+            item.Color = new SolidColorBrush(Colors.Yellow);
           }
           else
           {
-            item.Level = 1;
+            item.Color = new SolidColorBrush(Colors.Red);
           }
         }
         else
         {
-          item.Level = 0;
+          item.Color = new SolidColorBrush(Colors.Black);
         }
-
         currentLevel += step;
       }
     }
-
-    private void OnPropertyChanged([CallerMemberName]string propertyName = null)
-    {
-      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    public event PropertyChangedEventHandler PropertyChanged;
   }
 }

@@ -5,17 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GroundControl.Station"
              mc:Ignorable="d" 
-             d:DesignHeight="30" d:DesignWidth="100" 
-             DataContext="{Binding RelativeSource={RelativeSource Self}}" >
+             d:DesignHeight="30" d:DesignWidth="100">
   <UserControl.Resources>
     <local:ExtendedBoolToVisibilityConverter x:Key="boolToVisibility" />
   </UserControl.Resources>
   <Grid>
-    <TextBox Text="{Binding Text, Mode=TwoWay}" Visibility="{Binding EditMode, Converter={StaticResource boolToVisibility}}"  
+    <TextBox Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:EditableLabel}}, Path=Text, Mode=TwoWay}"
+             Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:EditableLabel}}, Path=EditMode, Converter={StaticResource boolToVisibility}}"  
              KeyDown="TextBox_KeyDown"
              local:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text"/>
-    <Label Content="{Binding Text}" FontWeight="DemiBold"
-           Visibility="{Binding EditMode, Converter={StaticResource boolToVisibility}, ConverterParameter=1}" 
+    <Label Content="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:EditableLabel}}, Path=Text}" 
+           FontWeight="DemiBold"
+           Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:EditableLabel}}, Path=EditMode, Converter={StaticResource boolToVisibility}, ConverterParameter=1}" 
            MouseDoubleClick="Label_MouseDoubleClick"/>
   </Grid>
 </UserControl>

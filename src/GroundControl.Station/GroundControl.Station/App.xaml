@@ -12,6 +12,9 @@
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Left" />
       </Style>
+      <Style TargetType="TextBlock" >
+        <Setter Property="Padding" Value="2" />
+      </Style>
       <Style TargetType="TextBox" >
         <Setter Property="TextAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
