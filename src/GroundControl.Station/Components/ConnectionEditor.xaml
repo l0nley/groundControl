@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GroundControl.Station.Components"
         mc:Ignorable="d"
-        Title="ConnectionEditor" Height="142" Width="300" 
+        Title="ConnectionEditor" Height="200" Width="300" 
         ResizeMode="NoResize"
         DataContext="{Binding RelativeSource={RelativeSource Self}}">
   <Grid>

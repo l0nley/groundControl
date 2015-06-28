@@ -9,12 +9,15 @@
              d:DesignHeight="300" d:DesignWidth="300">
   <UserControl.ContextMenu>
     <ContextMenu>
-      <MenuItem Header="Add Connection" Click="AddConnection" />
+      <MenuItem Header="Add Connection" Click="AddConnection" IsEnabled="{Binding NotOnline}" />
     </ContextMenu>
   </UserControl.ContextMenu>
   <Border BorderBrush="Black" BorderThickness="1" Margin="2">
     <StackPanel Orientation="Vertical" MinWidth="100">
-      <TextBlock Text="{Binding Name}" />
+      <StackPanel>
+        <CheckBox IsChecked="{Binding Path=Online, Mode=TwoWay}" />
+        <TextBlock Text="{Binding Name}" />
+      </StackPanel>
       <ItemsControl ItemsSource="{Binding Connections}">
         <ItemsControl.ItemsPanel>
           <ItemsPanelTemplate>
@@ -28,12 +31,14 @@
         </ItemsControl.ItemTemplate>
       </ItemsControl>
       <ItemsControl ItemsSource="{Binding Health}">
-        <DataTemplate DataType="{x:Type models:HealthItemViewModel}">
-          <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{Binding Name}" />
-            <TextBlock Text="{Binding ViewValue}" />
-          </StackPanel>
-        </DataTemplate>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate DataType="{x:Type models:HealthItemViewModel}">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="{Binding Name}" />
+              <TextBlock Text="{Binding ViewValue}" />
+            </StackPanel>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
       </ItemsControl>
     </StackPanel>
   </Border>
