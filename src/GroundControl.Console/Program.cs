@@ -12,6 +12,7 @@ namespace GroundControl.Console
   {
     public static void Main(string[] args)
     {
+      System.Console.SetWindowSize(85,43);
       MainAsync().Wait();
     }
 
@@ -27,6 +28,7 @@ namespace GroundControl.Console
       var queue = new ConcurrentQueue<IChunk>();
       var connectionFactory = new ConnectionFactory();
       connectionFactory.AddHandler(new ComConnectionHandler());
+      connectionFactory.AddHandler(new BuzzerConnectionHandler());
 
       using (var aggregator = new DataHarvester(connectionFactory, queue, repo, 5))
       {
@@ -36,7 +38,7 @@ namespace GroundControl.Console
           reducer.HealthUpdated += HealthUpdated;
           reducer.OnFrame += Reducer_OnFrame;
           await reducer.Start();
-          await aggregator.CreateAndTrackConnection(new ConnectionEndpoint("device://COM4"));
+          await aggregator.CreateAndTrackConnection(new ConnectionEndpoint("device://buzzer1"));
           System.Console.WriteLine("Press enter to exit...");
           System.Console.ReadLine();
           reducer.OnFrame -= Reducer_OnFrame;

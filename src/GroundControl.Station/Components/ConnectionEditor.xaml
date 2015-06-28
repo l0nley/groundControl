@@ -1,0 +1,33 @@
+﻿<Window x:Class="GroundControl.Station.Components.ConnectionEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GroundControl.Station.Components"
+        mc:Ignorable="d"
+        Title="ConnectionEditor" Height="142" Width="300" 
+        ResizeMode="NoResize"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+    <TextBlock Grid.Row="0" Grid.Column="0">Connection Name:</TextBlock>
+    <TextBlock Grid.Row="1" Grid.Column="0">Type:</TextBlock>
+    <TextBlock Grid.Row="2" Grid.Column="0">Uri:</TextBlock>
+    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ConnectionName, Mode=TwoWay}"></TextBox>
+    <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Types}" DisplayMemberPath="DisplayValue" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" />
+    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Uri, Mode=TwoWay}" />
+    <UniformGrid Grid.Row="3" Grid.ColumnSpan="2" Columns="2">
+      <Button Style="{StaticResource OkBtn}" Click="Button_Click" />
+      <Button Style="{StaticResource CancelBtn}" Click="Button_Click_1" />
+    </UniformGrid>
+  </Grid>
+</Window>
