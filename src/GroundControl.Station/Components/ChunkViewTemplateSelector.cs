@@ -7,6 +7,7 @@ namespace GroundControl.Station.Components
   public class ChunkViewTemplateSelector : DataTemplateSelector
   {
     public DataTemplate StringTemplate { get; set; }
+    public DataTemplate LinearTemplate { get; set; }
 
     public override DataTemplate SelectTemplate(object item, DependencyObject container)
     {
@@ -18,6 +19,8 @@ namespace GroundControl.Station.Components
 
       switch (cvm.ViewType)
       {
+        case ChunkViewType.Linear:
+          return LinearTemplate;
         default:
           return StringTemplate;
       }

@@ -27,7 +27,12 @@
     <DataTemplate x:Key="stringView">
       <views:String DataContext="{Binding}" />
     </DataTemplate>
-    <local:ChunkViewTemplateSelector x:Key="chunkTemplateSelector" StringTemplate="{StaticResource stringView}" />
+    <DataTemplate x:Key="linearView">
+      <views:Linear DataContext="{Binding}" />
+    </DataTemplate>
+    <local:ChunkViewTemplateSelector x:Key="chunkTemplateSelector" 
+                                     StringTemplate="{StaticResource stringView}" 
+                                     LinearTemplate="{StaticResource linearView}"/>
   </UserControl.Resources>
   <UserControl.ContextMenu>
     <ContextMenu>

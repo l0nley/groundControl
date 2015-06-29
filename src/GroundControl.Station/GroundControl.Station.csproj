@@ -56,6 +56,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Components\ChunkViews\Linear.xaml.cs">
+      <DependentUpon>Linear.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\ChunkViews\PointsToPathConverter.cs" />
     <Compile Include="Components\ChunkViews\String.xaml.cs">
       <DependentUpon>String.xaml</DependentUpon>
     </Compile>
@@ -72,6 +76,10 @@
     <Compile Include="ViewModels\HealthItemViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Page Include="Components\ChunkViews\Linear.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Components\ChunkViews\String.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

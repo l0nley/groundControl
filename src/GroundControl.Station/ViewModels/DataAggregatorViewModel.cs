@@ -187,7 +187,7 @@ namespace GroundControl.Station.ViewModels
 
               Description = item.Description,
               Value = item.Value,
-              ViewType = ChunkViewType.Value
+              ViewType = item.Description.Prefix == (byte)'D' ? ChunkViewType.Linear : ChunkViewType.Value
             });
           });
         }

@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="GroundControl.Station.Components.ChunkViews.Linear"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GroundControl.Station.Components.ChunkViews"
+             mc:Ignorable="d" 
+             Loaded="UserControl_Loaded"
+             d:DesignHeight="300" d:DesignWidth="300">
+  <UserControl.Resources>
+    <SolidColorBrush Color="DarkGreen" Opacity="0.1" x:Key="limeOpacity" />
+    <DrawingBrush Viewport="0,0,0.25,0.25" TileMode="Tile" x:Key="background">
+      <DrawingBrush.Drawing>
+        <GeometryDrawing>
+          <GeometryDrawing.Pen>
+            <Pen Brush="{StaticResource limeOpacity}" Thickness="1" />
+          </GeometryDrawing.Pen>
+          <GeometryDrawing.Brush>
+            <SolidColorBrush Color="Black" />
+          </GeometryDrawing.Brush>
+          <GeometryDrawing.Geometry>
+            <RectangleGeometry Rect="50,50,50,50" />
+          </GeometryDrawing.Geometry>
+        </GeometryDrawing>
+      </DrawingBrush.Drawing>
+    </DrawingBrush>
+    <local:PointsToPathConverter x:Key="pointsConverter" />
+  </UserControl.Resources>
+  <Border Style="{StaticResource Border}" Background="{StaticResource background}">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="1*" />
+        <ColumnDefinition Width="1*" />
+        <ColumnDefinition Width="1*" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Row="0" Grid.Column="0"
+                 Style="{StaticResource DigitalFont}" FontWeight="SemiBold" HorizontalAlignment="Left" Text="{Binding Description.Description}" />
+      <Canvas Grid.Row="1" Grid.ColumnSpan="3" MinHeight="100" x:Name="Canvas">
+        <Path Data="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:Linear}}, Path=Points, Converter={StaticResource pointsConverter}, UpdateSourceTrigger=PropertyChanged}" 
+              Stroke="LimeGreen" StrokeThickness="1" />
+      </Canvas>
+      <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
+        <TextBlock Style="{StaticResource DigitalFont}" FontWeight="SemiBold" Text="↑"/>
+        <TextBlock Style="{StaticResource DigitalFont}" FontWeight="SemiBold" 
+                   Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:Linear}}, Path=Max, UpdateSourceTrigger=PropertyChanged, StringFormat=N1}"/>
+      </StackPanel>
+      <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" >
+        <TextBlock Style="{StaticResource DigitalFont}" FontWeight="SemiBold" Text="=" />
+        <TextBlock Style="{StaticResource DigitalFont}" FontWeight="SemiBold" 
+                   Text="{Binding HumanValue}" />
+      </StackPanel>
+      <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+        <TextBlock Style="{StaticResource DigitalFont}" FontWeight="SemiBold" Text="↓"/>
+        <TextBlock Style="{StaticResource DigitalFont}" FontWeight="SemiBold" 
+                   Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:Linear}}, Path=Min, UpdateSourceTrigger=PropertyChanged, StringFormat=N1}"/>
+      </StackPanel>
+    </Grid>
+  </Border>
+</UserControl>
