@@ -6,14 +6,14 @@
              xmlns:local="clr-namespace:GroundControl.Station.Components.ChunkViews"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-  <Border Style="{StaticResource Border}">
+  <Border Style="{StaticResource Border}" Background="Black">
     <Grid>
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
         <RowDefinition Height="Auto" />
       </Grid.RowDefinitions>
-      <TextBlock Grid.Row="0" FontWeight="Bold" Text="{Binding Description.Description}" />
-      <TextBlock Grid.Row="1" FontSize="30" FontWeight="Bold" Style="{StaticResource DigitalFont}" Text="{Binding HumanValue}" />
+      <TextBlock Grid.Row="0" FontWeight="Bold" Text="{Binding Description.Description}" Foreground="LimeGreen" />
+      <TextBlock Grid.Row="1" FontSize="30" FontWeight="Bold" Style="{StaticResource DigitalFont}" Text="{Binding HumanValue}" Foreground="LimeGreen" />
     </Grid>
   </Border>
 </UserControl>

@@ -11,7 +11,7 @@ namespace GroundControl.Protocols
     public DistanceChunk()
       : base((byte)'D',sizeof(float), AggregateHelpers.AverageFloat)
     {
-      Description = "Distance, cm";
+      Description = "Distance";
     }
 
     /// <summary>
@@ -19,6 +19,6 @@ namespace GroundControl.Protocols
     /// </summary>
     /// <param name="value">The value</param>
     /// <returns>the string</returns>
-    public override string ToHuman(byte[] value) => BitConverter.ToSingle(value,0).ToString("000.0 cm", CultureInfo.InvariantCulture);
+    public override string ToHuman(byte[] value) => BitConverter.ToSingle(value,0).ToString("000 cm", CultureInfo.InvariantCulture);
   }
 }

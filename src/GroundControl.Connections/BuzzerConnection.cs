@@ -89,13 +89,13 @@ namespace GroundControl.Connections
       }
       if (_queue.Count == 0 || count > _queue.Count)
       {
-        var lst = new List<byte> { (byte)'H' };
-        lst.AddRange(BitConverter.GetBytes(_random.Next(100, 999) / 10.0f));
+        var lst = new List<byte>();
+        lst.Add((byte)'H');
+        lst.AddRange(BitConverter.GetBytes((float)_random.Next(10, 99)));
         lst.Add((byte)'T');
         lst.AddRange(BitConverter.GetBytes(_random.Next(10, 300) / 10.0f));
         lst.Add((byte)'D');
         lst.AddRange(BitConverter.GetBytes((float)_random.Next(0, 400)));
-        lst.InsertRange(0, BitConverter.GetBytes(lst.Count));
         foreach (var @byte in lst)
         {
           _queue.Enqueue(@byte);

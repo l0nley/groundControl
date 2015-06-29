@@ -52,9 +52,7 @@ namespace GroundControl.Protocols
     /// <param name="chunksData">Chunks to aggregate</param>
     /// <returns>Aggregated value</returns>
     public byte[] Aggregate(IEnumerable<byte[]> chunksData)
-    {
-      return _aggregate(chunksData);
-    }
+      => _aggregate(chunksData);
 
     /// <summary>
     /// Converts value of chunk to human readble format

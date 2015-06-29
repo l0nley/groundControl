@@ -6,6 +6,7 @@
   <Application.Resources>
     <Style TargetType="TextBlock" x:Key="DigitalFont">
       <Setter Property="FontFamily" Value="D:\github\groundControl\src\GroundControl.Station\Assets\#Segment14" />
+      <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
     <Style TargetType="TextBlock">
       <Setter Property="Margin" Value="5" />

@@ -62,24 +62,30 @@
         </ItemsControl>
       </Border>
       <Border Style="{StaticResource Border}">
-      <ItemsControl ItemsSource="{Binding Health}">
-        <ItemsControl.ItemTemplate>
-          <DataTemplate DataType="{x:Type models:HealthItemViewModel}">
-            <StackPanel Orientation="Horizontal">
-              <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
-              <TextBlock Text="{Binding ViewValue}" />
-            </StackPanel>
-          </DataTemplate>
-        </ItemsControl.ItemTemplate>
-      </ItemsControl>
-      </Border>
-        <ItemsControl ItemsSource="{Binding ChunkViews}" ItemTemplateSelector="{StaticResource chunkTemplateSelector}">
-          <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-              <WrapPanel />
-            </ItemsPanelTemplate>
-          </ItemsControl.ItemsPanel>
+        <ItemsControl ItemsSource="{Binding Health}">
+          <ItemsControl.ItemTemplate>
+            <DataTemplate DataType="{x:Type models:HealthItemViewModel}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="100" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" Grid.Column="0"/>
+                <Border Style="{StaticResource Border}" Background="Black" Grid.Column="1">
+                  <TextBlock Text="{Binding ViewValue}" Style="{StaticResource DigitalFont}" Foreground="LimeGreen" />
+                </Border>
+              </Grid>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
         </ItemsControl>
+      </Border>
+      <ItemsControl ItemsSource="{Binding ChunkViews}" ItemTemplateSelector="{StaticResource chunkTemplateSelector}">
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <WrapPanel />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+      </ItemsControl>
     </WrapPanel>
   </Border>
 </UserControl>
