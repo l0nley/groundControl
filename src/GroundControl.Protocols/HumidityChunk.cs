@@ -12,7 +12,7 @@ namespace GroundControl.Protocols
     public HumidityChunk() 
       :base((byte)'H',sizeof(float), AggregateHelpers.AverageFloat)
     {
-      Description = "Humidity, %";
+      Description = "Humidity";
     }
 
     /// <summary>
@@ -20,6 +20,6 @@ namespace GroundControl.Protocols
     /// </summary>
     /// <param name="value">The value</param>
     /// <returns>the string</returns>
-    public override string ToHuman(byte[] value) => BitConverter.ToSingle(value, 0).ToString(CultureInfo.InvariantCulture);
+    public override string ToHuman(byte[] value) => BitConverter.ToSingle(value, 0).ToString("000.0 %",CultureInfo.InvariantCulture);
   }
 }

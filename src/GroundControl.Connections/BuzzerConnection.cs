@@ -90,7 +90,7 @@ namespace GroundControl.Connections
       if (_queue.Count == 0 || count > _queue.Count)
       {
         var lst = new List<byte> { (byte)'H' };
-        lst.AddRange(BitConverter.GetBytes(_random.Next(100, 1000) / 10.0f));
+        lst.AddRange(BitConverter.GetBytes(_random.Next(100, 999) / 10.0f));
         lst.Add((byte)'T');
         lst.AddRange(BitConverter.GetBytes(_random.Next(10, 300) / 10.0f));
         lst.Add((byte)'D');

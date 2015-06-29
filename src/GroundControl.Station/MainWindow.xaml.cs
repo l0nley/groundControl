@@ -1,6 +1,7 @@
 ﻿using GroundControl.Station.Components;
 using GroundControl.Station.ViewModels;
 using Microsoft.VisualBasic;
+using System.Collections.Concurrent;
 using System.Windows;
 
 namespace GroundControl.Station
@@ -20,7 +21,10 @@ namespace GroundControl.Station
 
     private void ComponentsDataAggregator(object sender, RoutedEventArgs e)
     {
-      var agg = new DataAggregatorViewModel();
+      var agg = new DataAggregatorViewModel
+      {
+        Chunks = new ConcurrentQueue<Core.IChunk>()
+      };
       var temp = "AG" + agg.GetHashCode();
       temp = Interaction.InputBox("Data aggregator name", Title, temp);
       agg.Name = temp;
@@ -30,6 +34,18 @@ namespace GroundControl.Station
       };
       ElementsPanel.Children.Add(dtg);
       Model.DataAggregators.Add(agg);
+    }
+
+    private void Window_Closed(object sender, System.EventArgs e)
+    {
+      foreach(var child in ElementsPanel.Children)
+      {
+        var cleanup = child as ICleanup;
+        if(cleanup!=null)
+        {
+          cleanup.Cleanup();
+        }
+      }
     }
   }
 }

@@ -56,19 +56,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Components\Connection.xaml.cs">
-      <DependentUpon>Connection.xaml</DependentUpon>
+    <Compile Include="Components\ChunkViews\String.xaml.cs">
+      <DependentUpon>String.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\ChunkViewTemplateSelector.cs" />
+    <Compile Include="ViewModels\ChunkViewType.cs" />
     <Compile Include="Components\ConnectionEditor.xaml.cs">
       <DependentUpon>ConnectionEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\ICleanup.cs" />
     <Compile Include="Components\TypeItem.cs" />
+    <Compile Include="ViewModels\ChunkViewModel.cs" />
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
     <Compile Include="ViewModels\DataAggregatorViewModel.cs" />
     <Compile Include="ViewModels\HealthItemViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Page Include="Components\Connection.xaml">
+    <Page Include="Components\ChunkViews\String.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -114,6 +118,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Assets\Segment14.otf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -123,9 +128,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\GroundControl.Connections\GroundControl.Connections.csproj">
       <Project>{7c01fdd8-5a88-450c-83ff-f85e09ef431f}</Project>
@@ -135,6 +138,14 @@
       <Project>{c06da4ba-736e-4ffb-b11b-5584b385e053}</Project>
       <Name>GroundControl.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GroundControl.Protocols\GroundControl.Protocols.csproj">
+      <Project>{1b2c88ff-8bb8-49f1-a561-03c1d5e9b37d}</Project>
+      <Name>GroundControl.Protocols</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\led_green.png" />
+    <Resource Include="Assets\led_red.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

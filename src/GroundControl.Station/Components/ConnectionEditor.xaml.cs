@@ -1,9 +1,5 @@
-﻿using GroundControl.Connections;
-using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows;
 
@@ -15,41 +11,19 @@ namespace GroundControl.Station.Components
   public partial class ConnectionEditor : Window, INotifyPropertyChanged
   {
     private string _connectionName;
-    private DropdownItem<Type> _selectedItem;
-    private ObservableCollection<DropdownItem<Type>> _types;
+    private DropdownItem<string> _selectedItem;
+    private ObservableCollection<DropdownItem<string>> _types;
     private string _uri;
 
     public ConnectionEditor()
     {
-      _types = new ObservableCollection<DropdownItem<Type>>();
-      var types = typeof(ConnectionHandlerBase)
-        .Assembly
-        .GetTypes()
-        .Where(_ => _.IsSubclassOf(typeof(ConnectionHandlerBase)))
-        .Select(_ => new DropdownItem<Type>
-        {
-          DisplayValue = _.Name,
-          Value = _
-        });
-      foreach(var type in types)
-      {
-        _types.Add(type);
-      }
       InitializeComponent();
     }
 
     private void OnPropertyChanged([CallerMemberName]string propertyName = null)
       => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-    public ObservableCollection<DropdownItem<Type>> Types
-    {
-      get
-      {
-        return _types;
-      }
-    }
-
-    public DropdownItem<Type> SelectedItem
+    public DropdownItem<string> SelectedItem
     {
       get
       {

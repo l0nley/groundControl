@@ -12,6 +12,7 @@ namespace GroundControl.Core
   {
     private const string TotalBytes = "Total Bytes";
     private const string TotalChunks = "Total Chunks";
+    private const string QueueState = "In Queue";
     private readonly IConnectionFactory _factory;
     private readonly ConcurrentQueue<IChunk> _packetQueue;
     private readonly IChunkDescriptionsRepository _descriptionsRepository;
@@ -88,7 +89,8 @@ namespace GroundControl.Core
       return new IHealthDescription[]
       {
         new HealthDescription(TotalBytes, _totalBytes),
-        new HealthDescription(TotalChunks, _totalChunks)
+        new HealthDescription(TotalChunks, _totalChunks),
+        new HealthDescription(QueueState, _packetQueue.Count)
       };
     }
 

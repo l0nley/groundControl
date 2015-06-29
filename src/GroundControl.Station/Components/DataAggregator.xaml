@@ -5,41 +5,81 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GroundControl.Station.Components"
              xmlns:models="clr-namespace:GroundControl.Station.ViewModels"
+             xmlns:views="clr-namespace:GroundControl.Station.Components.ChunkViews"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+  <UserControl.Resources>
+    <BitmapImage UriSource="D:\github\groundControl\src\GroundControl.Station\Assets\led_green.png" x:Key="green" />
+    <BitmapImage UriSource="D:\github\groundControl\src\GroundControl.Station\Assets\led_red.png" x:Key="red" />
+    <Style TargetType="Image" x:Key="switcher">
+      <Setter Property="Width" Value="25" />
+      <Setter Property="Height" Value="50" />
+      <Setter Property="Source" Value="{StaticResource red}"/>
+      <Style.Triggers>
+        <DataTrigger Binding="{Binding Online}" Value="True">
+          <Setter Property="Source" Value="{StaticResource green}" />
+        </DataTrigger>
+        <DataTrigger Binding="{Binding Online}" Value="False">
+          <Setter Property="Source" Value="{StaticResource red}"/>
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>
+    <DataTemplate x:Key="stringView">
+      <views:String DataContext="{Binding}" />
+    </DataTemplate>
+    <local:ChunkViewTemplateSelector x:Key="chunkTemplateSelector" StringTemplate="{StaticResource stringView}" />
+  </UserControl.Resources>
   <UserControl.ContextMenu>
     <ContextMenu>
       <MenuItem Header="Add Connection" Click="AddConnection" IsEnabled="{Binding NotOnline}" />
     </ContextMenu>
   </UserControl.ContextMenu>
-  <Border BorderBrush="Black" BorderThickness="1" Margin="2">
-    <StackPanel Orientation="Vertical" MinWidth="100">
-      <StackPanel>
-        <CheckBox IsChecked="{Binding Path=Online, Mode=TwoWay}" />
-        <TextBlock Text="{Binding Name}" />
-      </StackPanel>
-      <ItemsControl ItemsSource="{Binding Connections}">
-        <ItemsControl.ItemsPanel>
-          <ItemsPanelTemplate>
-            <StackPanel Orientation="Vertical" />
-          </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-        <ItemsControl.ItemTemplate>
-          <DataTemplate DataType="{x:Type models:ConnectionViewModel}">
-            <local:Connection />
-          </DataTemplate>
-        </ItemsControl.ItemTemplate>
-      </ItemsControl>
+  <Border Style="{StaticResource Border}">
+    <WrapPanel Orientation="Vertical">
+      <Border Style="{StaticResource Border}">
+        <StackPanel Orientation="Horizontal">
+          <Button Click="Button_Click" Style="{StaticResource TransparentButton}">
+            <Image Style="{StaticResource switcher}" />
+          </Button>
+          <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+        </StackPanel>
+      </Border>
+      <Border Style="{StaticResource Border}">
+        <ItemsControl ItemsSource="{Binding Connections}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <StackPanel Orientation="Vertical" />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <ItemsControl.ItemTemplate>
+            <DataTemplate DataType="{x:Type models:ConnectionViewModel}">
+              <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Name}" FontWeight="SemiBold"  />
+                <TextBlock Text="{Binding Uri}" />
+              </StackPanel>
+            </DataTemplate>
+          </ItemsControl.ItemTemplate>
+        </ItemsControl>
+      </Border>
+      <Border Style="{StaticResource Border}">
       <ItemsControl ItemsSource="{Binding Health}">
         <ItemsControl.ItemTemplate>
           <DataTemplate DataType="{x:Type models:HealthItemViewModel}">
             <StackPanel Orientation="Horizontal">
-              <TextBlock Text="{Binding Name}" />
+              <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
               <TextBlock Text="{Binding ViewValue}" />
             </StackPanel>
           </DataTemplate>
         </ItemsControl.ItemTemplate>
       </ItemsControl>
-    </StackPanel>
+      </Border>
+        <ItemsControl ItemsSource="{Binding ChunkViews}" ItemTemplateSelector="{StaticResource chunkTemplateSelector}">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </WrapPanel>
   </Border>
 </UserControl>

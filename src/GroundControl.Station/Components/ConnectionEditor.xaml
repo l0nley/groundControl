@@ -8,26 +8,26 @@
         Title="ConnectionEditor" Height="200" Width="300" 
         ResizeMode="NoResize"
         DataContext="{Binding RelativeSource={RelativeSource Self}}">
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
-    </Grid.RowDefinitions>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="Auto"/>
-      <ColumnDefinition Width="*"/>
-    </Grid.ColumnDefinitions>
-    <TextBlock Grid.Row="0" Grid.Column="0">Connection Name:</TextBlock>
-    <TextBlock Grid.Row="1" Grid.Column="0">Type:</TextBlock>
-    <TextBlock Grid.Row="2" Grid.Column="0">Uri:</TextBlock>
-    <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ConnectionName, Mode=TwoWay}"></TextBox>
-    <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Types}" DisplayMemberPath="DisplayValue" SelectedItem="{Binding SelectedItem, Mode=TwoWay}" />
-    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Uri, Mode=TwoWay}" />
-    <UniformGrid Grid.Row="3" Grid.ColumnSpan="2" Columns="2">
-      <Button Style="{StaticResource OkBtn}" Click="Button_Click" />
-      <Button Style="{StaticResource CancelBtn}" Click="Button_Click_1" />
-    </UniformGrid>
-  </Grid>
+  <Border Style="{StaticResource Border}">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <TextBlock Grid.Row="0" Grid.Column="0">Connection Name:</TextBlock>
+      <TextBlock Grid.Row="2" Grid.Column="0">Uri:</TextBlock>
+      <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding ConnectionName, Mode=TwoWay}"></TextBox>
+      <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Uri, Mode=TwoWay}" />
+      <UniformGrid Grid.Row="3" Grid.ColumnSpan="2" Columns="2">
+        <Button Style="{StaticResource OkBtn}" Click="Button_Click" />
+        <Button Style="{StaticResource CancelBtn}" Click="Button_Click_1" />
+      </UniformGrid>
+    </Grid>
+  </Border>
 </Window>

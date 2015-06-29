@@ -11,7 +11,7 @@ namespace GroundControl.Protocols
     public TemperatureChunk()
       : base((byte)'T', sizeof(float), AggregateHelpers.AverageFloat)
     {
-      Description = "Temperature, C*";
+      Description = "Temperature";
     }
 
     /// <summary>
@@ -19,6 +19,6 @@ namespace GroundControl.Protocols
     /// </summary>
     /// <param name="value">The value</param>
     /// <returns>the string</returns>
-    public override string ToHuman(byte[] value) => BitConverter.ToSingle(value, 0).ToString(CultureInfo.InvariantCulture);
+    public override string ToHuman(byte[] value) => BitConverter.ToSingle(value, 0).ToString("#00.0 °C",CultureInfo.InvariantCulture);
   }
 }

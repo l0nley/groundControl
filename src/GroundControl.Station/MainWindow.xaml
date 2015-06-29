@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GroundControl.Station"
         mc:Ignorable="d"
-        Title="Ground Control Station" Height="600" Width="1000" DataContext="{Binding RelativeSource={RelativeSource Self}, Path=Model}">
+        Title="Ground Control Station" 
+        Height="600" Width="1000" 
+        DataContext="{Binding RelativeSource={RelativeSource Self}, Path=Model}"
+        Closed="Window_Closed">
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />

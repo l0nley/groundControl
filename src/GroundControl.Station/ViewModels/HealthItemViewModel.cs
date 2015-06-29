@@ -36,7 +36,7 @@
     {
       get
       {
-        return Value?.ToString();
+        return _value?.ToString();
       }
     }
   }

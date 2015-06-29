@@ -7,7 +7,7 @@ namespace GroundControl.Station.Components
   /// <summary>
   /// Interaction logic for DataAggregator.xaml
   /// </summary>
-  public partial class DataAggregator : UserControl
+  public partial class DataAggregator : UserControl, ICleanup
   {
     public DataAggregator()
     {
@@ -22,6 +22,13 @@ namespace GroundControl.Station.Components
       }
     }
 
+    public void Cleanup()
+    {
+      if (Model.Online)
+      {
+        Model.Online = false;
+      }
+    }
 
     private void AddConnection(object sender, RoutedEventArgs e)
     {
@@ -33,13 +40,16 @@ namespace GroundControl.Station.Components
 
       var con = new ConnectionViewModel
       {
-        FullTypeName = editor.SelectedItem.Value.FullName,
         Name = editor.ConnectionName,
-        TypeName = editor.SelectedItem.Value.Name,
         Uri = editor.Uri
       };
 
       Model.Connections.Add(con);
+    }
+
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+      Model.Online = !Model.Online;
     }
   }
 }
