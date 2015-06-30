@@ -42,7 +42,7 @@
                  Style="{StaticResource DigitalFont}" FontWeight="SemiBold" HorizontalAlignment="Left" Text="{Binding Description.Description}" />
       <Canvas Grid.Row="1" Grid.ColumnSpan="3" MinHeight="100" x:Name="Canvas">
         <Path Data="{Binding RelativeSource={RelativeSource AncestorType={x:Type local:Linear}}, Path=Points, Converter={StaticResource pointsConverter}, UpdateSourceTrigger=PropertyChanged}" 
-              Stroke="LimeGreen" StrokeThickness="1" />
+              Stroke="LimeGreen" StrokeThickness="2" />
       </Canvas>
       <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
         <TextBlock Style="{StaticResource DigitalFont}" FontWeight="SemiBold" Text="↑"/>

@@ -82,12 +82,17 @@
               </Grid>
             </DataTemplate>
           </ItemsControl.ItemTemplate>
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <WrapPanel Orientation="Vertical" />
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
         </ItemsControl>
       </Border>
       <ItemsControl ItemsSource="{Binding ChunkViews}" ItemTemplateSelector="{StaticResource chunkTemplateSelector}">
         <ItemsControl.ItemsPanel>
           <ItemsPanelTemplate>
-            <WrapPanel />
+            <WrapPanel Orientation="Vertical" />
           </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
       </ItemsControl>
