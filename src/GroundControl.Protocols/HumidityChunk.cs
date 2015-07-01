@@ -19,6 +19,7 @@ namespace GroundControl.Protocols
     /// </summary>
     /// <param name="value">The value</param>
     /// <returns>the string</returns>
-    public override string ToHuman(byte[] value) => BitConverter.ToSingle(value, 0).ToString("000 ", CultureInfo.InvariantCulture) + "%";
+    public override string ToHuman(byte[] value) 
+      => BitConverter.ToSingle(value, 0).ToString("000 ", CultureInfo.InvariantCulture) + "%";
   }
 }

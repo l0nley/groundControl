@@ -142,6 +142,9 @@ namespace GroundControl.Station.ViewModels
       descriptions.Add(new HumidityChunk());
       descriptions.Add(new TemperatureChunk());
       descriptions.Add(new DistanceChunk());
+      descriptions.Add(new FirstMotorChunk());
+      descriptions.Add(new SecondMotorChunk());
+      descriptions.Add(new SpeedChunk());
       _harvester = new DataHarvester(factory, _chunks, descriptions, 5);
       _harvester.HealthUpdated += HealthUpdated;
       foreach (var conn in Connections)
@@ -191,6 +194,14 @@ namespace GroundControl.Station.ViewModels
             });
           });
         }
+      }
+    }
+
+    public DataHarvester Harvester
+    {
+      get
+      {
+        return _harvester;
       }
     }
 

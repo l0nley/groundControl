@@ -64,6 +64,15 @@
       <DependentUpon>String.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\ChunkViewTemplateSelector.cs" />
+    <Compile Include="Components\DropDownItem.cs" />
+    <Compile Include="Components\DropDownWindow.xaml.cs">
+      <DependentUpon>DropDownWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\MoveControl.xaml.cs">
+      <DependentUpon>MoveControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\MoveType.cs" />
+    <Compile Include="Components\Utillities.cs" />
     <Compile Include="ViewModels\ChunkViewType.cs" />
     <Compile Include="Components\ConnectionEditor.xaml.cs">
       <DependentUpon>ConnectionEditor.xaml</DependentUpon>
@@ -75,6 +84,7 @@
     <Compile Include="ViewModels\DataAggregatorViewModel.cs" />
     <Compile Include="ViewModels\HealthItemViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MoveControlViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
     <Page Include="Components\ChunkViews\Linear.xaml">
       <SubType>Designer</SubType>
@@ -89,6 +99,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\DataAggregator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\DropDownWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\MoveControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

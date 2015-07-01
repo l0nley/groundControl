@@ -14,7 +14,7 @@ namespace GroundControl.Station.Components
       InitializeComponent();
     }
 
-    private DataAggregatorViewModel Model
+    public DataAggregatorViewModel Model
     {
       get
       {

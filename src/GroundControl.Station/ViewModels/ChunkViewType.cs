@@ -2,7 +2,6 @@
 {
   public enum ChunkViewType
   {
-    Log,
     Linear,
     Value
   }

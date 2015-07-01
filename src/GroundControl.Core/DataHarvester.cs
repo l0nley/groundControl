@@ -12,14 +12,16 @@ namespace GroundControl.Core
   {
     private const string TotalBytes = "Total Bytes";
     private const string TotalChunks = "Total Chunks";
-    private const string QueueState = "In Queue";
+    private const string QueueState = "Chunk Queue";
+    private const string CommandsState = "Commands Sended";
     private readonly IConnectionFactory _factory;
     private readonly ConcurrentQueue<IChunk> _packetQueue;
     private readonly IChunkDescriptionsRepository _descriptionsRepository;
     private volatile bool _repositoryChanged;
     private long _totalBytes;
     private long _totalChunks;
-    private readonly ConcurrentDictionary<IConnectionEndpoint, Tuple<Connection, Thread>> _connections;
+    private long _commandsSended;
+    private readonly ConcurrentDictionary<IConnectionEndpoint, Tuple<Connection, Thread, ConcurrentQueue<byte[]>>> _connections;
 
     public DataHarvester(
       IConnectionFactory factory,
@@ -28,7 +30,8 @@ namespace GroundControl.Core
       int secondsToUpdateHealth = 0)
       : base(secondsToUpdateHealth)
     {
-      _connections = new ConcurrentDictionary<IConnectionEndpoint, Tuple<Connection, Thread>>();
+      _connections = new ConcurrentDictionary<IConnectionEndpoint, Tuple<Connection, Thread, ConcurrentQueue<byte[]>>>();
+      _commandsSended = 0;
       _factory = factory;
       _packetQueue = packetQueue;
       _repositoryChanged = false;
@@ -47,10 +50,11 @@ namespace GroundControl.Core
     {
       var connection = await _factory.Create(endpoint);
       var thread = new Thread(Worker);
-      _connections.AddOrUpdate(endpoint, new Tuple<Connection, Thread>(connection, thread), (a, b) => b);
+      var queue = new ConcurrentQueue<byte[]>();
+      _connections.AddOrUpdate(endpoint, new Tuple<Connection, Thread, ConcurrentQueue<byte[]>>(connection, thread, queue), (a, b) => b);
       await connection.Open();
 
-      thread.Start(connection);
+      thread.Start(new Tuple<Connection, ConcurrentQueue<byte[]>>(connection, queue));
     }
 
     /// <summary>
@@ -60,7 +64,7 @@ namespace GroundControl.Core
     /// <returns>The awaiter</returns>
     public void DropConnection(IConnectionEndpoint endpoint)
     {
-      Tuple<Connection, Thread> value;
+      Tuple<Connection, Thread, ConcurrentQueue<byte[]>> value;
       if (_connections.TryRemove(endpoint, out value) == false)
       {
         return;
@@ -90,7 +94,8 @@ namespace GroundControl.Core
       {
         new HealthDescription(TotalBytes, _totalBytes),
         new HealthDescription(TotalChunks, _totalChunks),
-        new HealthDescription(QueueState, _packetQueue.Count)
+        new HealthDescription(QueueState, _packetQueue.Count),
+        new HealthDescription(CommandsState, _commandsSended)
       };
     }
 
@@ -133,7 +138,7 @@ namespace GroundControl.Core
     /// <param name="state"></param>
     private void Worker(object state)
     {
-      var connection = (Connection)state;
+      var tuple = (Tuple<Connection, ConcurrentQueue<byte[]>>)state;
       var repositoryCache = (IDictionary<byte, IChunkDescription>)_descriptionsRepository.Clone();
       try
       {
@@ -145,7 +150,17 @@ namespace GroundControl.Core
             repositoryCache = (IDictionary<byte, IChunkDescription>)_descriptionsRepository.Clone();
           }
 
-          var signature = connection.ReadByte();
+          if (tuple.Item2.Count> 0)
+          {
+            var command = tuple.Item2.DequeueNotMore(tuple.Item2.Count);
+            if (command.Count > 0)
+            {
+              tuple.Item1.Write(command[0], 0, command[0].Length);
+              Interlocked.Increment(ref _commandsSended);
+            }
+          }
+
+          var signature = tuple.Item1.ReadByte();
           if (signature < 0)
           {
             continue;
@@ -157,7 +172,7 @@ namespace GroundControl.Core
             continue;
           }
 
-          var chunk = Task.Run(() => ReadChunk(connection, description)).Result;
+          var chunk = Task.Run(() => ReadChunk(tuple.Item1, description)).Result;
           Interlocked.Increment(ref _totalChunks);
           _packetQueue.Enqueue(chunk);
         }
@@ -206,6 +221,23 @@ namespace GroundControl.Core
         }
         buffers.Add((byte)readed);
       }
+    }
+    /// <summary>
+    /// Sens command to corresponding endpoint
+    /// </summary>
+    /// <param name="command">The command</param>
+    /// <param name="endpoint">The endpoint</param>
+    /// <returns>Task to wait</returns>
+    public Task SendCommand(byte[] command, IConnectionEndpoint endpoint)
+    {
+      Tuple<Connection, Thread, ConcurrentQueue<byte[]>> item;
+      if(_connections.TryGetValue(endpoint,out item) == false)
+      {
+        throw new InvalidOperationException();
+      }
+
+      item.Item3.Enqueue(command);
+      return Task.FromResult(0);
     }
   }
 }

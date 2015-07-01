@@ -2,6 +2,7 @@
 using GroundControl.Station.ViewModels;
 using Microsoft.VisualBasic;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace GroundControl.Station
@@ -46,6 +47,56 @@ namespace GroundControl.Station
           cleanup.Cleanup();
         }
       }
+    }
+
+    private void MoveControl(object sender, RoutedEventArgs e)
+    {
+      var items = new List<DropDownItem>();
+      foreach(var item in ElementsPanel.Children)
+      {
+        var ag = item as DataAggregator;
+        if(ag != null)
+        {
+          items.Add(new DropDownItem
+          {
+            DisplayText = ag.Model.Name,
+            Value = ag.Model
+          });
+        }
+      }
+
+      var win = new DropDownWindow
+      {
+        Text = "Choose harvester to connect"
+      };
+
+      foreach(var item in items)
+      {
+        win.Items.Add(item);
+      }
+
+      if(win.ShowDialog() != true)
+      {
+        return;
+      }
+
+      var value = win.SelectedItem;
+      if(value == null)
+      {
+        return;
+      }
+      var agg = (DataAggregatorViewModel)value.Value;
+
+      var moveControl = new MoveControl
+      {
+        DataContext = new MoveControlViewModel
+        {
+          Harvester = agg,
+          ConnectedTo = agg.Name
+        }
+      };
+
+      ElementsPanel.Children.Add(moveControl);
     }
   }
 }

@@ -17,6 +17,14 @@ namespace GroundControl.Core
     Task CreateAndTrackConnection(IConnectionEndpoint endpoint);
 
     /// <summary>
+    /// Sens command to corresponding endpoint
+    /// </summary>
+    /// <param name="command">The command</param>
+    /// <param name="endpoint">The endpoint</param>
+    /// <returns>Task to wait</returns>
+    Task SendCommand(byte[] command, IConnectionEndpoint endpoint);
+
+    /// <summary>
     /// Drops connection
     /// </summary>
     /// <param name="endpoint">Connection endpoint</param>

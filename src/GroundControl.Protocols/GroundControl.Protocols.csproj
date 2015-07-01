@@ -43,8 +43,11 @@
     <Compile Include="AggregateHelpers.cs" />
     <Compile Include="DistanceChunk.cs" />
     <Compile Include="HumidityChunk.cs" />
+    <Compile Include="FirstMotorChunk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FixedSizeChunkBase.cs" />
+    <Compile Include="SecondMotorChunk.cs" />
+    <Compile Include="SpeedChunk.cs" />
     <Compile Include="TemperatureChunk.cs" />
   </ItemGroup>
   <ItemGroup>

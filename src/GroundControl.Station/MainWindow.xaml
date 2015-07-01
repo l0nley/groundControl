@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Ground Control Station" 
         Height="600" Width="1000" 
-        DataContext="{Binding RelativeSource={RelativeSource Self}, Path=Model}"
+        DataContext="{Binding RelativeSource={RelativeSource Self}, Path=Model}" 
         Closed="Window_Closed">
   <Grid>
     <Grid.RowDefinitions>
@@ -17,6 +17,7 @@
     <Menu>
       <MenuItem Header="Components">
         <MenuItem Header="Data aggregator" Click="ComponentsDataAggregator"/>
+        <MenuItem Header="Move control" Click="MoveControl" />
       </MenuItem>
     </Menu>
     <WrapPanel x:Name="ElementsPanel" Grid.Row="1">

@@ -22,7 +22,9 @@ namespace GroundControl.Console
       {
         new HumidityChunk(),
         new DistanceChunk(),
-        new TemperatureChunk()
+        new TemperatureChunk(),
+        new FirstMotorChunk(),
+        new SecondMotorChunk()
       };
 
       var queue = new ConcurrentQueue<IChunk>();
@@ -38,9 +40,18 @@ namespace GroundControl.Console
           reducer.HealthUpdated += HealthUpdated;
           reducer.OnFrame += Reducer_OnFrame;
           await reducer.Start();
-          await aggregator.CreateAndTrackConnection(new ConnectionEndpoint("device://buzzer1"));
-          System.Console.WriteLine("Press enter to exit...");
-          System.Console.ReadLine();
+          var endpoint = new ConnectionEndpoint("device://COM4");
+          await aggregator.CreateAndTrackConnection(endpoint);
+          while(true)
+          {
+            var key = System.Console.ReadKey();
+            if(key.Key == System.ConsoleKey.Enter)
+            {
+              break;
+            }
+            var keyByte = (byte)key.KeyChar;
+            await aggregator.SendCommand(new byte[] { keyByte }, endpoint);
+          }
           reducer.OnFrame -= Reducer_OnFrame;
           reducer.HealthUpdated -= HealthUpdated;
         }
